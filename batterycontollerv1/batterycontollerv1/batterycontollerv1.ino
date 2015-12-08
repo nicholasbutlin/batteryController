@@ -74,7 +74,7 @@ void analogCommand(YunClient client) {
     analogWrite(pin, value);
 
     // Send feedback to client
-    client.print(F("Pin D"));
+    client.print(F("Pin A"));
     client.print(pin);
     client.print(F(" set to analog "));
     client.println(value);
