@@ -1,13 +1,15 @@
 # connectbattery.local
-getting started: 
+getting started:
+
 http://www.seeedstudio.com/wiki/Seeeduino_Cloud
+
 https://www.arduino.cc/en/Guide/ArduinoYun
 
-## from ssh
+## Basic pin controls
 curl localhost/arduino/digital/12
 
 
-## watchdog setup
+## Watchdog setup
 
 make sure the wlan is up, if not, restart or reboot
 
@@ -21,6 +23,10 @@ on a fresh Yun / OpenWRT, first start cron, and enable on boot
 put watchdog in root
 ```
 crontab -e
-chmod +x watchdog.sh
 * * * * * /root/watchdog.sh
+```
+
+make executable
+```
+chmod +x watchdog.sh
 ```
