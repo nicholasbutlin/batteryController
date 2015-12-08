@@ -1,8 +1,8 @@
 #include <Bridge.h>
-#include <YunServer.h>
-#include <YunClient.h>
+#include <BridgeServer.h>
+#include <BridgeClient.h>
 
-YunServer server;
+BridgeServer server;
 
 void setup() {
   Serial.begin(9600);
@@ -16,7 +16,7 @@ void setup() {
 }
 
 void loop() {
-  YunClient client = server.accept();
+  BridgeClient client = server.accept();
 
   if (client) {
     process(client);
@@ -27,7 +27,7 @@ void loop() {
 }
 
 
-void process(YunClient client) {
+void process(BridgeClient client) {
   String command = client.readStringUntil('/');
 
   if (command == "digital") {
@@ -41,7 +41,7 @@ void process(YunClient client) {
   }
 }
 
-void digitalCommand(YunClient client) {
+void digitalCommand(BridgeClient client) {
   int pin, value;
   
   pin = client.parseInt();
@@ -64,7 +64,7 @@ void digitalCommand(YunClient client) {
   Bridge.put(key, String(value));
 }
 
-void analogCommand(YunClient client) {
+void analogCommand(BridgeClient client) {
   int pin, value;
 
   pin = client.parseInt();
@@ -97,7 +97,7 @@ void analogCommand(YunClient client) {
   }
 }
 
-void modeCommand(YunClient client) {
+void modeCommand(BridgeClient client) {
   int pin;
   pin = client.parseInt();
 
