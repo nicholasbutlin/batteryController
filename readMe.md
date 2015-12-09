@@ -1,12 +1,19 @@
 # connectbattery.local
 getting started:
 
+setup the board,
+
 http://www.seeedstudio.com/wiki/Seeeduino_Cloud
 
 https://www.arduino.cc/en/Guide/ArduinoYun
 
-## Basic pin controls
-curl localhost/arduino/digital/12
+## Basic access
+https://connectbattery.local (e.g. as named)
+
+ssh root@connectbattery.local
+
+make change to pin
+curl https://connectbattery.local/arduino/digital/12
 
 
 ## Watchdog setup
