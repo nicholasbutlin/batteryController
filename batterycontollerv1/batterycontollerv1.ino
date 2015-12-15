@@ -23,7 +23,7 @@ void loop() {
     client.stop();
   }
 
-  delay(50); 
+  delay(50);
 }
 
 
@@ -43,17 +43,17 @@ void process(BridgeClient client) {
 
 void digitalCommand(BridgeClient client) {
   int pin, value;
-  
+
   pin = client.parseInt();
 
   if (client.read() == '/') {
     value = client.parseInt();
     digitalWrite(pin, value);
-  } 
+  }
   else {
     value = digitalRead(pin);
   }
-  
+
   client.print(F("Pin D"));
   client.print(pin);
   client.print(F(" set to "));
