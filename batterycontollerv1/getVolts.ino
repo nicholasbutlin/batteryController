@@ -1,4 +1,6 @@
-
+/*
+Get voltage from a voltage divider circuit, using Aref @ 4.096V
+*/
 float getVolts(int pin)
 {
 	// Measure and set cr and zr as per calibration instructions.

@@ -4,6 +4,8 @@
 
 BridgeServer server;
 
+const int temperaturePin = 0;
+
 void setup() {
   Serial.begin(9600);
   pinMode(13,OUTPUT);
@@ -23,9 +25,17 @@ void loop() {
     client.stop();
   }
 
-  delay(50);
-}
+  // Temp Code
+  float degreesC;
 
+  degreesC = getTemp(temperaturePin);
+
+  Serial.print("  deg C: ");
+  Serial.print(degreesC);
+
+  // repeat once per second
+  delay(1000);
+}
 
 void process(BridgeClient client) {
   String command = client.readStringUntil('/');

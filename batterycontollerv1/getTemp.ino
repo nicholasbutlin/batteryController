@@ -11,28 +11,6 @@ Hardware connections:
   Connect the GND pin to ground (GND).
 
 */
-
-const int temperaturePin = 0;
-
-void setup()
-{
-  Serial.begin(9600);
-}
-
-
-void loop()
-{
-  float voltage, degreesC;
-
-  degreesC = getTemp(temperaturePin);
-
-  Serial.print("  deg C: ");
-  Serial.print(degreesC);
-	// repeat once per second
-  delay(1000);
-}
-
-
 float getTemp(int pin)
 {
 	//formula from TMP36 datasheet
