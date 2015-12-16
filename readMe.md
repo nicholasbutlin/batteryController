@@ -42,51 +42,51 @@ chmod +x watchdog.sh
 
 ## Voltage Measurement
 
-Aim: Measure voltage of 20 - 30v approx
+### Voltage Divider circuit ~ 24v
 
-### Accuracy
-ADC specification ref AtMega32u4[ http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents ] data sheet.
-
-http://www.atmel.com/Images/doc4278.pdf
-
-Voltage Divider circuit:
-to measure 24v +- 5v
-R1:R2 :: 4:20
-such that 1/R1 + 1/R2 = 10k
+Calcs for 4V required drop across analogpin, data sheet [AtMega32u4]( http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+```
+Output impedance optimised at 10k  (as per datasheet)
+1/R1 + 1/R2 ~= 10k
+4 = 24 -20
+R1:R2 :: 4:20 :: 10:50
+R1 = 10k
+R2 = 50k
+1/(1/R1 + 1/R2) = 8.33k
+```
+### Calibration process
+```
+connect circuit to 0v, read analog pin --> zero reading: zr
+connect circuit to 4.096, read analog pin -->  calibration reading: cr
+maxvolts = 4.096 * 1023 / (cr - zr)
+actual read = (Vread - zr) * maxvolts / 1023
+--> actual read = 4.096 * (Vread - zr)/(cr - zr)
 
 ```
-10-bits  (0 - 1023 decimal)
+thanks to : http://www.skillbank.co.uk/arduino/calibrate.htm
+
+see code for usage
+
+### Accuracy Calculations
+ADC Voltage accuracy of = 0.25%.
+
+Calcs for ADC Accuracy, data sheet [AtMega32u4]( http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+```
+10-bit ADC (0 - 1023 decimal), Conversion Time 13 - 260 µs
 Integral Non-linearity ± 1 LSB
 Absolute Accuracy  ± 2 LSB
-Conversion Time 13 - 260 µs
-Rain = 100M
-Rref = 32k
-output impedance optimised at 10k
+± 2 LSB  == 4 / 1024 == 0.25%
 ```
-Voltage accuracy of  ± 2 LSB
---> 4 / 1024 i.e. 0.25%.
+Voltage reference diode, LM4040DIZ-4.1/NOPB: 4.096V ± 0.2%.
 
-LM4040DIZ-4.1/NOPB voltage reference diode, 100 uA  > I <15mA 4.096V ± 0.2%.
-Calcs for accuracy using USB power supply
-Rref current = 4.096V / 32k =  0.128mA
+Calcs for Diode accuracy using USB power supply:
+```
+Current parameters: 100uA < I < 15mA
+Aref R = 32k
+Aref I = 4.096V / 32k =  0.128mA
 Diode current = 0.4mA
 Min current = 0.4 + 0.128 = 0.528mA.
+USB Min Voltage = 4.40
+R3 = 4.40 - 4.096 / 0.528 = 560 ohms
 Max current: 5.25  - 4.096 / 0.560k = 2.16 mA
-(R = 4.40 - 4.096 / 0.528 = 560 ohms.)
-
-calibration:
-connect circuit to 0v --> the zeroreading is the analogpin() : zr
-
-connect circuit to 4.096 --> the calibrated reading : cr
-maxvolts = 4.096 * 1023 / (cr - zr)
 ```
-int zeroreading = zr;
-float maxvolts = maxvolts as calculated;
-// read the input on analog pin 0:
-int sensorValue = analogRead(A0);
-//correct the zero offset
-sensorValue= sensorValue - zeroreading;
-// Convert the analog reading to voltage
-float voltage = sensorValue * (maxvolts / 1023.0);
-```
-and the result is a reading that is correct to 0.25%
