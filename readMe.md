@@ -40,7 +40,7 @@ chmod +x watchdog.sh
 ## Temp Measurement
 ### Accuracy
 
-## Voltage Measurement
+## DC Voltage Measurement
 
 ### Voltage Divider circuit ~ 24v
 
@@ -90,3 +90,19 @@ USB Min Voltage = 4.40
 R3 = 4.40 - 4.096 / 0.528 = 560 ohms
 Max current: 5.25  - 4.096 / 0.560k = 2.16 mA
 ```
+## AC Voltage Measurement
+
+
+## Lead Acid Charging / Discharging
+
+To charge a 12-volt lead acid battery (six cells) to a voltage limit of 2.40V, set the voltage to 14.40V (6 x 2.40).
+
+AGM and Gel should float at 2.25v
+
+Select the charge current between 10 and 30 percent of the rated capacity. A 10Ah battery at 30 percent charges at about 3A.
+
+Observe the battery temperature, voltage and current during charge.
+Once the battery is fully charged and the current has dropped to three percent of the rated Ah, the charge is completed. Disconnect the charge.
+High self-discharge (soft electrical short) may prevent the current from going to the anticipated low current level when fully charged.
+Disconnect the charge also when the current has bottomed out and cannot go lower.
+If you need float charge for operational readiness, lower the charge voltage to about 2.25V/cell.
