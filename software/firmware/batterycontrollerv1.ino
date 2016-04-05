@@ -5,6 +5,7 @@
 BridgeServer server;
 
 const int temperaturePin = A0;
+const int dcVoltsPin = A1;
 
 void setup() {
   //general
@@ -33,6 +34,13 @@ void loop() {
   degreesC = getTemp(temperaturePin);
   Serial.print("  deg C: ");
   Serial.print(degreesC);
+
+  // getVoltsDC
+  float voltsDC;
+  voltsDC = getDCVolts(dcVoltsPin);
+  Serial.print("  volts DC: ");
+  Serial.print(voltsDC);
+
 
   // general 
   delay(1000);
