@@ -9,3 +9,19 @@ float getDCVolts(int pin)
   //formula from readme
   return (4.096 * (analogRead(pin) - zr)/(cr - zr));
 }
+
+/*
+Get DC Current
+*/
+float getDCAmps(int pin)
+{
+  return 0.0;
+}
+
+/*
+Calc DC Power
+*/
+float calcDCPwr(float ampsDC, float voltsDC)
+{
+  return ampsDC * voltsDC;
+}

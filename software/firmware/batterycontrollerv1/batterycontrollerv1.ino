@@ -6,6 +6,7 @@ BridgeServer server;
 
 const int temperaturePin = A0;
 const int dcVoltsPin = A1;
+const int acVoltsPin = A2;
 
 void setup() {
   //general
@@ -29,19 +30,28 @@ void loop() {
     client.stop();
   }
 
-  // getTemp
-  float degreesC;
-  degreesC = getTemp(temperaturePin);
-  Serial.print("  deg C: ");
-  Serial.print(degreesC);
-
-  // getVoltsDC
+  //
+  float voltsAC;
+  float ampsAC;
+  float pwrAC;
   float voltsDC;
+  float ampsDC;
+  float pwrDC;
+  float tempC;
+
+  tempC = getTemp(temperaturePin);
   voltsDC = getDCVolts(dcVoltsPin);
-  Serial.print("  volts DC: ");
-  Serial.print(voltsDC);
+  voltsAC = getACVolts(acVoltsPin);
+  ampsDC = getDCAmps(dcVoltsPin);
+  ampsAC = getACAmps(acVoltsPin);
+
+  pwrDC = calcDCPwr(ampsDC, voltsDC);
+  pwrAC = calcACPwr(ampsAC, voltsAC);
+
+  // Serial out
+  Serial.print(tempC);
 
 
-  // general 
+  // general
   delay(1000);
 }
