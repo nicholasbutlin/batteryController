@@ -1,20 +1,41 @@
 # connectbattery.local
-getting started:
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [connectbattery.local](#connectbatterylocal)
+
+  - [Getting started:](#getting-started)
+  - [Basic access](#basic-access)
+  - [Watchdog setup](#watchdog-setup)
+  - [Temp Measurement](#temp-measurement)
+
+    - [Accuracy](#accuracy)
+
+  - [DC Voltage Measurement](#dc-voltage-measurement)
+
+    - [Voltage Divider circuit ~ 24v](#voltage-divider-circuit-24v)
+    - [Calibration process](#calibration-process)
+    - [Accuracy Calculations](#accuracy-calculations)
+
+  - [AC Voltage Measurement](#ac-voltage-measurement)
+  - [Lead Acid Charging / Discharging](#lead-acid-charging-discharging)
+<!-- /TOC -->
+
+## Getting started
 
 setup the board,
 
-http://www.seeedstudio.com/wiki/Seeeduino_Cloud
+<http://www.seeedstudio.com/wiki/Seeeduino_Cloud>
 
-https://www.arduino.cc/en/Guide/ArduinoYun
+<https://www.arduino.cc/en/Guide/ArduinoYun>
 
 ## Basic access
-https://connectbattery.local (e.g. as named)
+
+<https://connectbattery.local> (e.g. as named)
 
 ssh root@connectbattery.local
 
-make change to pin
-curl https://connectbattery.local/arduino/digital/12
-
+make change to pin curl <https://connectbattery.local/arduino/digital/12>
 
 ## Watchdog setup
 
@@ -28,23 +49,28 @@ on a fresh Yun / OpenWRT, first start cron, and enable on boot
 ```
 
 put watchdog in root
+
 ```
 crontab -e
 * * * * * /root/watchdog.sh
 ```
 
 make executable
+
 ```
 chmod +x watchdog.sh
 ```
+
 ## Temp Measurement
+
 ### Accuracy
 
 ## DC Voltage Measurement
 
 ### Voltage Divider circuit ~ 24v
 
-Calcs for 4V required drop across analogpin, data sheet [AtMega32u4]( http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+Calcs for 4V required drop across analogpin, data sheet [AtMega32u4](http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+
 ```
 Output impedance optimised at 10k  (as per datasheet)
 1/R1 + 1/R2 ~= 10k
@@ -54,32 +80,38 @@ R1 = 10k
 R2 = 50k
 1/(1/R1 + 1/R2) = 8.33k
 ```
+
 ### Calibration process
+
 ```
 connect circuit to 0v, read analog pin --> zero reading: zr
 connect circuit to 4.096, read analog pin -->  calibration reading: cr
 maxvolts = 4.096 * 1023 / (cr - zr)
 actual read = (Vread - zr) * maxvolts / 1023
 --> actual read = 4.096 * (Vread - zr)/(cr - zr)
-
 ```
-thanks to : http://www.skillbank.co.uk/arduino/calibrate.htm
+
+thanks to : <http://www.skillbank.co.uk/arduino/calibrate.htm>
 
 see code for usage
 
 ### Accuracy Calculations
+
 ADC Voltage accuracy of = 0.25%.
 
-Calcs for ADC Accuracy, data sheet [AtMega32u4]( http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+Calcs for ADC Accuracy, data sheet [AtMega32u4](http://www.atmel.com/devices/ATMEGA2560.aspx?tab=documents):
+
 ```
 10-bit ADC (0 - 1023 decimal), Conversion Time 13 - 260 µs
 Integral Non-linearity ± 1 LSB
 Absolute Accuracy  ± 2 LSB
 ± 2 LSB  == 4 / 1024 == 0.25%
 ```
+
 Voltage reference diode, LM4040DIZ-4.1/NOPB: 4.096V ± 0.2%.
 
 Calcs for Diode accuracy using USB power supply:
+
 ```
 Current parameters: 100uA < I < 15mA
 Aref R = 32k
@@ -90,8 +122,8 @@ USB Min Voltage = 4.40
 R3 = 4.40 - 4.096 / 0.528 = 560 ohms
 Max current: 5.25  - 4.096 / 0.560k = 2.16 mA
 ```
-## AC Voltage Measurement
 
+## AC Voltage Measurement
 
 ## Lead Acid Charging / Discharging
 
@@ -101,8 +133,6 @@ AGM and Gel should float at 2.25v
 
 Select the charge current between 10 and 30 percent of the rated capacity. A 10Ah battery at 30 percent charges at about 3A.
 
-Observe the battery temperature, voltage and current during charge.
-Once the battery is fully charged and the current has dropped to three percent of the rated Ah, the charge is completed. Disconnect the charge.
-High self-discharge (soft electrical short) may prevent the current from going to the anticipated low current level when fully charged.
-Disconnect the charge also when the current has bottomed out and cannot go lower.
-If you need float charge for operational readiness, lower the charge voltage to about 2.25V/cell.
+Observe the battery temperature, voltage and current during charge. Once the battery is fully charged and the current has dropped to three percent of the rated Ah, the charge is completed. Disconnect the charge. High self-discharge (soft electrical short) may prevent the current from going to the anticipated low current level when fully charged. Disconnect the charge also when the current has bottomed out and cannot go lower. If you need float charge for operational readiness, lower the charge voltage to about 2.25V/cell.
+
+**Testing**
